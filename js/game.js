@@ -1012,10 +1012,21 @@ function doMoveTutorNode(node) {
 // ---- Trade Node ----
 
 async function doTradeNode(node) {
+  // 1. Zuerst den Screen anzeigen
   showScreen('trade-screen');
-  document.getElementById('trade-desc').textContent = "Trade one of your Pokémon for a random Pokémon 3 levels higher.";
+
+  // 2. Sicherheitscheck: Existiert das Element wirklich?
+  const descEl = document.getElementById('trade-desc');
+  if (descEl) {
+    descEl.textContent = "Trade one of your Pokémon for a random Pokémon 3 levels higher.";
+  } else {
+    console.error("Fehler: Element 'trade-desc' wurde nicht im HTML gefunden!");
+    // Optional: Hier abbrechen oder Standard-Screen zeigen, damit das Spiel nicht hängen bleibt
+  }
 
   const listEl = document.getElementById('trade-team-list');
+  if (!listEl) return; // Falls auch die Liste fehlt, Funktion sicher verlassen
+  
   listEl.innerHTML = '';
 
   for (let i = 0; i < state.team.length; i++) {
