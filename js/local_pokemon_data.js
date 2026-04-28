@@ -170,3 +170,144 @@ function _buildSpeciesObj(id) {
     shinySpriteUrl: `${SPRITE_SHINY_BASE}${d.id}.png`,
   };
 }
+
+
+// ============================================================
+// GENERATION 2 — Arenaleiter / Elite 4 / Champion
+// Levelkurve bewusst identisch zu Gen 1 gehalten
+// ============================================================
+const GYM_LEADERS_GEN2 = [
+  // Map 1: Falkner — Flug (lv 9–12)
+  {
+    name: 'Falkner', badge: 'Zephyr Badge', type: 'Flying', moveTier: 0,
+    team: [
+      { speciesId:163, name:'Hoothoot', types:['Normal','Flying'], baseStats:{hp:60,atk:30,def:30,speed:50,special:36,spdef:56}, level:9,  heldItem:null },
+      { speciesId:22,  name:'Fearow',   types:['Normal','Flying'], baseStats:{hp:65,atk:90,def:65,speed:100,special:61,spdef:61}, level:13, heldItem:{id:'sharp_beak',name:'Sharp Beak',icon:'🦅'} },
+    ]
+  },
+  // Map 2: Bugsy — Käfer (lv 15–18)
+  {
+    name: 'Bugsy', badge: 'Hive Badge', type: 'Bug', moveTier: 0,
+    team: [
+      { speciesId:167, name:'Spinarak', types:['Bug','Poison'],  baseStats:{hp:40,atk:60,def:40,speed:30,special:40,spdef:40}, level:15, heldItem:null },
+      { speciesId:14,  name:'Kakuna',   types:['Bug','Poison'],  baseStats:{hp:45,atk:25,def:50,speed:35,special:25,spdef:25}, level:15, heldItem:{id:'eviolite',name:'Eviolite',icon:'💎'} },
+      { speciesId:123, name:'Scyther',  types:['Bug','Flying'],  baseStats:{hp:70,atk:110,def:80,speed:105,special:55,spdef:80}, level:18, heldItem:{id:'silver_powder',name:'Silver Powder',icon:'🐛'} },
+    ]
+  },
+  // Map 3: Whitney — Normal (lv 18–23)
+  {
+    name: 'Whitney', badge: 'Plain Badge', type: 'Normal', moveTier: 1,
+    team: [
+      { speciesId:35,  name:'Clefairy', types:['Normal'],        baseStats:{hp:70,atk:45,def:48,speed:35,special:60,spdef:65}, level:18, heldItem:{id:'eviolite',name:'Eviolite',icon:'💎'} },
+      { speciesId:241, name:'Miltank',  types:['Normal'],        baseStats:{hp:95,atk:80,def:105,speed:100,special:40,spdef:70}, level:23, heldItem:{id:'leftovers',name:'Leftovers',icon:'🍃'} },
+    ]
+  },
+  // Map 4: Morty — Geist (lv 25–32)
+  {
+    name: 'Morty', badge: 'Fog Badge', type: 'Ghost', moveTier: 1,
+    team: [
+      { speciesId:92,  name:'Gastly',   types:['Ghost','Poison'], baseStats:{hp:30,atk:35,def:30,speed:80,special:100,spdef:35}, level:25, heldItem:null },
+      { speciesId:93,  name:'Haunter',  types:['Ghost','Poison'], baseStats:{hp:45,atk:50,def:45,speed:95,special:115,spdef:55}, level:26, heldItem:{id:'spell_tag',name:'Spell Tag',icon:'👻'} },
+      { speciesId:93,  name:'Haunter',  types:['Ghost','Poison'], baseStats:{hp:45,atk:50,def:45,speed:95,special:115,spdef:55}, level:28, heldItem:{id:'life_orb',name:'Life Orb',icon:'🔮'} },
+      { speciesId:94,  name:'Gengar',   types:['Ghost','Poison'], baseStats:{hp:60,atk:65,def:60,speed:110,special:130,spdef:75}, level:32, heldItem:{id:'scope_lens',name:'Scope Lens',icon:'🔭'} },
+    ]
+  },
+  // Map 5: Chuck — Kampf (lv 28–35)  ← analog zu Koga in Gen1
+  {
+    name: 'Chuck', badge: 'Storm Badge', type: 'Fighting', moveTier: 1,
+    team: [
+      { speciesId:57,  name:'Primeape', types:['Fighting'],       baseStats:{hp:65,atk:105,def:60,speed:95,special:60,spdef:70}, level:28, heldItem:{id:'black_belt',name:'Black Belt',icon:'🥋'} },
+      { speciesId:214, name:'Heracross',types:['Bug','Fighting'],  baseStats:{hp:80,atk:125,def:75,speed:85,special:40,spdef:95}, level:35, heldItem:{id:'muscle_band',name:'Muscle Band',icon:'💪'} },
+    ]
+  },
+  // Map 6: Jasmine — Stahl (lv 40–47) ← analog zu Sabrina in Gen1
+  {
+    name: 'Jasmine', badge: 'Mineral Badge', type: 'Steel', moveTier: 1,
+    team: [
+      { speciesId:208, name:'Steelix',  types:['Steel','Ground'], baseStats:{hp:75,atk:85,def:200,speed:30,special:55,spdef:65}, level:40, heldItem:{id:'rocky_helmet',name:'Rocky Helmet',icon:'⛑️'} },
+      { speciesId:208, name:'Steelix',  types:['Steel','Ground'], baseStats:{hp:75,atk:85,def:200,speed:30,special:55,spdef:65}, level:42, heldItem:{id:'hard_stone',name:'Hard Stone',icon:'🪨'} },
+      { speciesId:227, name:'Skarmory', types:['Steel','Flying'],  baseStats:{hp:65,atk:80,def:140,speed:70,special:40,spdef:70}, level:47, heldItem:{id:'sharp_beak',name:'Sharp Beak',icon:'🦅'} },
+    ]
+  },
+  // Map 7: Pryce — Eis (lv 47–54) ← analog zu Blaine in Gen1
+  {
+    name: 'Pryce', badge: 'Glacier Badge', type: 'Ice', moveTier: 2,
+    team: [
+      { speciesId:220, name:'Swinub',   types:['Ice','Ground'],   baseStats:{hp:50,atk:50,def:40,speed:50,special:30,spdef:30}, level:27, heldItem:null },
+      { speciesId:221, name:'Piloswine',types:['Ice','Ground'],   baseStats:{hp:100,atk:100,def:80,speed:50,special:60,spdef:60}, level:31, heldItem:{id:'leftovers',name:'Leftovers',icon:'🍃'} },
+      { speciesId:87,  name:'Dewgong',  types:['Water','Ice'],    baseStats:{hp:90,atk:70,def:80,speed:70,special:95,spdef:95}, level:48, heldItem:{id:'mystic_water',name:'Mystic Water',icon:'💧'} },
+      { speciesId:131, name:'Lapras',   types:['Water','Ice'],    baseStats:{hp:130,atk:85,def:80,speed:60,special:95,spdef:95}, level:52, heldItem:{id:'shell_bell',name:'Shell Bell',icon:'🐚'} },
+    ]
+  },
+  // Map 8: Clair — Drachen (lv 53–62) ← analog zu Giovanni in Gen1
+  {
+    name: 'Clair', badge: 'Rising Badge', type: 'Dragon', moveTier: 2,
+    team: [
+      { speciesId:148, name:'Dragonair',types:['Dragon'],          baseStats:{hp:61,atk:84,def:65,speed:70,special:70,spdef:70}, level:37, heldItem:{id:'dragon_fang',name:'Dragon Fang',icon:'🐉'} },
+      { speciesId:148, name:'Dragonair',types:['Dragon'],          baseStats:{hp:61,atk:84,def:65,speed:70,special:70,spdef:70}, level:37, heldItem:{id:'eviolite',name:'Eviolite',icon:'💎'} },
+      { speciesId:148, name:'Dragonair',types:['Dragon'],          baseStats:{hp:61,atk:84,def:65,speed:70,special:70,spdef:70}, level:40, heldItem:{id:'dragon_fang',name:'Dragon Fang',icon:'🐉'} },
+      { speciesId:230, name:'Kingdra',  types:['Water','Dragon'],  baseStats:{hp:75,atk:95,def:95,speed:85,special:95,spdef:95}, level:62, heldItem:{id:'choice_band',name:'Choice Band',icon:'🎀'} },
+    ]
+  },
+];
+
+const ELITE_4_GEN2 = [
+  // Will — Psycho
+  {
+    name: 'Will', title: 'Elite Four', type: 'Psychic',
+    team: [
+      { speciesId:178, name:'Xatu',     types:['Psychic','Flying'], baseStats:{hp:65,atk:75,def:70,speed:95,special:95,spdef:70}, level:40, heldItem:{id:'twisted_spoon',name:'Twisted Spoon',icon:'🥄'} },
+      { speciesId:196, name:'Espeon',   types:['Psychic'],          baseStats:{hp:65,atk:65,def:60,speed:110,special:130,spdef:95}, level:42, heldItem:{id:'scope_lens',name:'Scope Lens',icon:'🔭'} },
+      { speciesId:178, name:'Xatu',     types:['Psychic','Flying'], baseStats:{hp:65,atk:75,def:70,speed:95,special:95,spdef:70}, level:42, heldItem:{id:'wise_glasses',name:'Wise Glasses',icon:'🔬'} },
+      { speciesId:65,  name:'Alakazam', types:['Psychic'],          baseStats:{hp:55,atk:50,def:45,speed:120,special:135,spdef:95}, level:46, heldItem:{id:'life_orb',name:'Life Orb',icon:'🔮'} },
+      { speciesId:203, name:'Girafarig',types:['Normal','Psychic'], baseStats:{hp:70,atk:80,def:65,speed:85,special:90,spdef:65}, level:46, heldItem:{id:'eviolite',name:'Eviolite',icon:'💎'} },
+    ]
+  },
+  // Koga — Gift (jetzt Elite Four)
+  {
+    name: 'Koga', title: 'Elite Four', type: 'Poison',
+    team: [
+      { speciesId:169, name:'Crobat',   types:['Poison','Flying'], baseStats:{hp:85,atk:90,def:80,speed:130,special:70,spdef:80}, level:48, heldItem:{id:'poison_barb',name:'Poison Barb',icon:'☠️'} },
+      { speciesId:49,  name:'Venomoth', types:['Bug','Poison'],    baseStats:{hp:70,atk:65,def:60,speed:90,special:90,spdef:75}, level:48, heldItem:{id:'silver_powder',name:'Silver Powder',icon:'🐛'} },
+      { speciesId:110, name:'Weezing',  types:['Poison'],          baseStats:{hp:65,atk:90,def:120,speed:60,special:85,spdef:85}, level:52, heldItem:{id:'rocky_helmet',name:'Rocky Helmet',icon:'⛑️'} },
+      { speciesId:89,  name:'Muk',      types:['Poison'],          baseStats:{hp:105,atk:105,def:75,speed:50,special:65,spdef:100}, level:52, heldItem:{id:'leftovers',name:'Leftovers',icon:'🍃'} },
+      { speciesId:211, name:'Qwilfish', types:['Water','Poison'],  baseStats:{hp:65,atk:95,def:85,speed:85,special:55,spdef:55}, level:56, heldItem:{id:'shell_bell',name:'Shell Bell',icon:'🐚'} },
+    ]
+  },
+  // Bruno — Kampf
+  {
+    name: 'Bruno', title: 'Elite Four', type: 'Fighting',
+    team: [
+      { speciesId:237, name:'Hitmontop', types:['Fighting'],       baseStats:{hp:50,atk:95,def:95,speed:70,special:35,spdef:110}, level:50, heldItem:{id:'black_belt',name:'Black Belt',icon:'🥋'} },
+      { speciesId:106, name:'Hitmonlee', types:['Fighting'],       baseStats:{hp:50,atk:120,def:53,speed:87,special:35,spdef:110}, level:52, heldItem:{id:'muscle_band',name:'Muscle Band',icon:'💪'} },
+      { speciesId:107, name:'Hitmonchan',types:['Fighting'],       baseStats:{hp:50,atk:105,def:79,speed:76,special:35,spdef:110}, level:52, heldItem:{id:'black_belt',name:'Black Belt',icon:'🥋'} },
+      { speciesId:214, name:'Heracross', types:['Bug','Fighting'],  baseStats:{hp:80,atk:125,def:75,speed:85,special:40,spdef:95}, level:56, heldItem:{id:'choice_band',name:'Choice Band',icon:'🎀'} },
+      { speciesId:68,  name:'Machamp',   types:['Fighting'],       baseStats:{hp:90,atk:130,def:80,speed:55,special:65,spdef:85}, level:58, heldItem:{id:'life_orb',name:'Life Orb',icon:'🔮'} },
+    ]
+  },
+  // Karen — Unlicht
+  {
+    name: 'Karen', title: 'Elite Four', type: 'Dark',
+    team: [
+      { speciesId:197, name:'Umbreon',  types:['Dark'],            baseStats:{hp:95,atk:65,def:110,speed:65,special:60,spdef:130}, level:50, heldItem:{id:'leftovers',name:'Leftovers',icon:'🍃'} },
+      { speciesId:198, name:'Murkrow',  types:['Dark','Flying'],   baseStats:{hp:60,atk:85,def:42,speed:91,special:85,spdef:42}, level:53, heldItem:{id:'sharp_beak',name:'Sharp Beak',icon:'🦅'} },
+      { speciesId:229, name:'Houndoom', types:['Dark','Fire'],     baseStats:{hp:75,atk:90,def:50,speed:95,special:110,spdef:80}, level:55, heldItem:{id:'charcoal',name:'Charcoal',icon:'🔥'} },
+      { speciesId:215, name:'Sneasel',  types:['Dark','Ice'],      baseStats:{hp:55,atk:95,def:55,speed:115,special:35,spdef:75}, level:57, heldItem:{id:'scope_lens',name:'Scope Lens',icon:'🔭'} },
+      { speciesId:197, name:'Umbreon',  types:['Dark'],            baseStats:{hp:95,atk:65,def:110,speed:65,special:60,spdef:130}, level:58, heldItem:{id:'shell_bell',name:'Shell Bell',icon:'🐚'} },
+    ]
+  },
+  // Lance — Drachen (Champion in Johto)
+  {
+    name: 'Lance', title: 'Champion', type: 'Dragon',
+    team: [
+      { speciesId:230, name:'Kingdra',  types:['Water','Dragon'],  baseStats:{hp:75,atk:95,def:95,speed:85,special:95,spdef:95}, level:56, heldItem:{id:'dragon_fang',name:'Dragon Fang',icon:'🐉'} },
+      { speciesId:149, name:'Dragonite',types:['Dragon','Flying'], baseStats:{hp:91,atk:134,def:95,speed:80,special:100,spdef:100}, level:56, heldItem:{id:'choice_band',name:'Choice Band',icon:'🎀'} },
+      { speciesId:149, name:'Dragonite',types:['Dragon','Flying'], baseStats:{hp:91,atk:134,def:95,speed:80,special:100,spdef:100}, level:58, heldItem:{id:'dragon_fang',name:'Dragon Fang',icon:'🐉'} },
+      { speciesId:149, name:'Dragonite',types:['Dragon','Flying'], baseStats:{hp:91,atk:134,def:95,speed:80,special:100,spdef:100}, level:60, heldItem:{id:'life_orb',name:'Life Orb',icon:'🔮'} },
+      { speciesId:248, name:'Tyranitar',types:['Rock','Dark'],     baseStats:{hp:100,atk:134,def:110,speed:61,special:95,spdef:100}, level:62, heldItem:{id:'rocky_helmet',name:'Rocky Helmet',icon:'⛑️'} },
+      { speciesId:230, name:'Kingdra',  types:['Water','Dragon'],  baseStats:{hp:75,atk:95,def:95,speed:85,special:95,spdef:95}, level:66, heldItem:{id:'scope_lens',name:'Scope Lens',icon:'🔭'} },
+    ]
+  },
+];
+
+
